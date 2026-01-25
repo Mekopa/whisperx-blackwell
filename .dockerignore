@@ -1,0 +1,45 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info
+dist
+build
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker
+*.md
+!README.md
+.dockerignore
+
+# Downloads
+Downloads/
+*.mp3
+*.wav
+*.json
+*.md
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
