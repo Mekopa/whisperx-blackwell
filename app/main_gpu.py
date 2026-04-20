@@ -104,7 +104,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="WhisperX Batch Processing Service (GPU)",
     description="Perfect transcription with GPU-accelerated speaker diarization. Built for NVIDIA DGX Spark (Blackwell).",
-    version="1.0.0-gpu",
+    version="1.1.0-gpu",
     lifespan=lifespan
 )
 
@@ -189,8 +189,8 @@ async def transcribe_audio(
         logger.info(f"👥 Step 3: Identifying speakers (device: {diarize_device}) - GPU ACCELERATED!")
         global diarize_pipeline
         if diarize_pipeline is None:
-            diarize_pipeline = whisperx.DiarizationPipeline(
-                use_auth_token=os.getenv("HF_TOKEN"),
+            diarize_pipeline = whisperx.diarize.DiarizationPipeline(
+                token=os.getenv("HF_TOKEN"),
                 device=diarize_device
             )
 
@@ -248,7 +248,7 @@ async def root():
     """API info"""
     return {
         "service": "WhisperX Batch Processing (GPU)",
-        "version": "1.0.0-gpu",
+        "version": "1.1.0-gpu",
         "platform": "NVIDIA DGX Spark (Blackwell)",
         "endpoint": "POST /transcribe",
         "features": [
