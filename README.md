@@ -154,8 +154,8 @@ spectrum = torch.sqrt(fft_result.real**2 + fft_result.imag**2)
 ### Tested Software
 
 - PyTorch 2.6.0 (NVIDIA container 25.01)
-- WhisperX 3.3.1
-- Pyannote.audio 3.3.2
+- WhisperX 3.8.5
+- Pyannote.audio 4.0.4
 - CUDA 13.0
 - Python 3.12
 
@@ -165,11 +165,11 @@ spectrum = torch.sqrt(fft_result.real**2 + fft_result.imag**2)
 ┌─────────────────────────────────────────────────────────────┐
 │  WhisperX Pipeline (GPU-Accelerated)                        │
 ├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  Step 1: Whisper large-v3      → GPU (Blackwell/Hopper)    │
-│  Step 2: Wav2Vec2 alignment    → GPU (Blackwell/Hopper)    │
-│  Step 3: Pyannote diarization  → GPU (PATCHED!)            │
-│                                                              │
+│                                                             │
+│  Step 1: Whisper large-v3      → GPU (Blackwell/Hopper)     │
+│  Step 2: Wav2Vec2 alignment    → GPU (Blackwell/Hopper)     │
+│  Step 3: Pyannote diarization  → GPU (PATCHED!)             │
+│                                                             │
 │  Patches Applied:                                           │
 │  - SM_121 → SM_90 capability spoof                          │
 │  - Torchaudio jiterator bypass                              │
