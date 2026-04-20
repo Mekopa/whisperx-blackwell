@@ -10,14 +10,14 @@ ENV CUDA_FORCE_PTX_JIT=1
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    ffmpeg \
-    libsndfile1 \
-    git \
-    cmake \
     build-essential \
+    cmake \
+    ffmpeg \
+    git \
     libopenblas-dev \
-    sox \
+    libsndfile1 \
     libsox-dev \
+    sox \
     && rm -rf /var/lib/apt/lists/*
 
 # Build torchaudio from source against NVIDIA's torch
@@ -60,15 +60,15 @@ RUN cp -r /usr/local/lib/python3.12/dist-packages/torch /tmp/torch_nvidia && \
 
 # Install WhisperX and dependencies
 RUN pip install --no-cache-dir \
-    whisperx==3.3.1 \
-    faster-whisper==1.1.0 \
     "pyannote.audio==3.3.2" \
-    transformers \
-    nltk \
-    matplotlib \
-    fastapi==0.109.0 \
-    uvicorn[standard]==0.27.0 \
-    python-multipart
+    "fastapi==0.109.0" \
+    "faster-whisper==1.1.0" \
+    "matplotlib" \
+    "nltk" \
+    "python-multipart" \
+    "transformers" \
+    "uvicorn[standard]==0.27.0" \
+    "whisperx==3.3.1"
 
 # Restore NVIDIA's torch, numpy, and custom torchaudio/torio if pip overwrote them
 RUN rm -rf /usr/local/lib/python3.12/dist-packages/torch && \
