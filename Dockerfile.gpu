@@ -10,14 +10,11 @@ ENV CUDA_FORCE_PTX_JIT=1
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    ffmpeg \
-    libsndfile1 \
-    git \
-    cmake \
     build-essential \
+    cmake \
+    ffmpeg \
+    git \
     libopenblas-dev \
-    sox \
-    libsox-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Build torchaudio from source against NVIDIA's torch
@@ -30,7 +27,7 @@ RUN git clone --depth 1 --branch v2.6.0 --recursive https://github.com/pytorch/a
 RUN pip install --no-cache-dir pybind11
 
 # Build CTranslate2 from source with CUDA and cuDNN support
-RUN git clone --recursive --depth 1 --branch v4.4.0 https://github.com/OpenNMT/CTranslate2.git /tmp/ctranslate2 && \
+RUN git clone --recursive --depth 1 --branch v4.7.1 https://github.com/OpenNMT/CTranslate2.git /tmp/ctranslate2 && \
     cd /tmp/ctranslate2 && \
     mkdir build && cd build && \
     cmake .. \
@@ -59,16 +56,24 @@ RUN cp -r /usr/local/lib/python3.12/dist-packages/torch /tmp/torch_nvidia && \
     cp -r /usr/local/lib/python3.12/dist-packages/numpy.libs /tmp/numpy_libs_nvidia 2>/dev/null || true
 
 # Install WhisperX and dependencies
+#
+# NOTE: the constraint transformers<5.0.0 is needed because:
+#       - whisperx==3.8.5     depends on huggingface-hub<1.0.0
+#       - transformers<5.0.0  requires   huggingface-hub<1.0.0
+#       - transformers>=5.0.0 requires   huggingface-hub>=1.0.0
+#
 RUN pip install --no-cache-dir \
-    whisperx==3.3.1 \
-    faster-whisper==1.1.0 \
-    "pyannote.audio==3.3.2" \
-    transformers \
-    nltk \
-    matplotlib \
-    fastapi==0.109.0 \
-    uvicorn[standard]==0.27.0 \
-    python-multipart
+    "fastapi==0.136.0" \
+    "faster-whisper==1.2.1" \
+    "matplotlib==3.10.8" \
+    "nltk==3.9.4" \
+    "pyannote.audio==4.0.4" \
+    "python-multipart==0.0.26" \
+    "semver==3.0.4" \
+    "torchcodec==0.11.1" \
+    "transformers<5.0.0" \
+    "uvicorn[standard]==0.44.0" \
+    "whisperx==3.8.5"
 
 # Restore NVIDIA's torch, numpy, and custom torchaudio/torio if pip overwrote them
 RUN rm -rf /usr/local/lib/python3.12/dist-packages/torch && \
